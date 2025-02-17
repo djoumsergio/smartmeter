@@ -13,7 +13,7 @@ def update_data():
     """Updates power consumption data every second."""
     global data
     while True:
-        time.sleep(5)
+        time.sleep(60)
         power = smartmeter.get_power(smartmeter.get_data())
         smartmeter.save_to_json(power)
         data = power
