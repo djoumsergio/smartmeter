@@ -39,7 +39,7 @@
                 .then(data => {
                     timestamps.push(new Date(data.timestamp * 1000).toLocaleTimeString());
                     powerValues.push(data.power_consumption);
-                    if (timestamps.length > 200) {
+                    if (timestamps.length > 1000) {
                         timestamps.shift();
                         powerValues.shift();
                     }
@@ -47,7 +47,7 @@
                 });
         }
 
-        setInterval(fetchData, 5000);
+        setInterval(fetchData, 60000);
     </script>
 </body>
 </html>
