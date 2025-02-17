@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template
+
 import random
 import time
 import threading
@@ -32,4 +33,4 @@ def get_data():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='192.168.178.123', debug=True)
