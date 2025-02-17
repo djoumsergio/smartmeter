@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Consumption</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Real-Time Power Consumption</h2>
+    <canvas id="powerChart"></canvas>
+    <script>
+        let timestamps = [];
+        let powerValues = [];
+        const ctx = document.getElementById('powerChart').getContext('2d');
+        const powerChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: timestamps,
+                datasets: [{
+                    label: 'Power Consumption (W)',
+                    data: powerValues,
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Time' } },
+                    y: { title: { display: true, text: 'Power (W)' } }
+                }
+            }
+        });
+
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    timestamps.push(new Date(data.timestamp * 1000).toLocaleTimeString());
+                    powerValues.push(data.power_consumption);
+                    if (timestamps.length > 200) {
+                        timestamps.shift();
+                        powerValues.shift();
+                    }
+                    powerChart.update();
+                });
+        }
+
+        setInterval(fetchData, 5000);
+    </script>
+</body>
+</html>
